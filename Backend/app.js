@@ -6,6 +6,11 @@ const mongoose = require('mongoose');
 dotenv.config({path: './config.env'});
 require('./db/conn');
 // const User = require('./models/userSchema');
+
+app.use(express.json());
+
+app.use(require('./router/auth'));
+
 const PORT = process.env.PORT;
 
 //middleware
