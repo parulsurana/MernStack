@@ -59,11 +59,40 @@ router.post('/register', async(req,res) => {
         await user.save();
 
         res.status(201).json({message : "User Registered Successfully"});
-        
+
    }catch(err){
      console.log(err);
    }  
 })
 
+//Signin functinality
+router.post('/signin', async(req,res) => {
+
+  try{
+
+    const {email, password} = req.body;
+
+    if(!email || !password)
+    {
+        return res.status(400).json({error : 'Filled the data'});
+    }
+
+    const userLogin = await User.findOne({email : email});
+
+    console.log(userLogin);
+
+    if(!userLogin)
+    {
+        res.status(400).json({error : 'User Error'});
+    }else{
+        res.json({message : 'User Signin Successfully'});
+    }
+   
+  }catch(err){
+      console.log(err);
+  }
+
+
+})
 
 module.exports = router;
