@@ -1,5 +1,6 @@
 .App {
 	text-align: center;
+	background-color: lightblue;
 }
 
 .App-logo {
@@ -45,4 +46,21 @@
 .signin-image img {
 	height: 8rem;
 	width: 8rem;
+}
+
+.home-page .home-div {
+	margin-top: 250px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.home-page .home-div p {
+	color: blue;
+}
+
+.home-page .home-div h1 {
+	font-size: 40px;
+	font-weight: 800;
+	text-transform: capitalize;
+	margin-bottom: 30px;
 }
