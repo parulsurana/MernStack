@@ -104,7 +104,7 @@ export default function Signup() {
 							<figure>
 								<img src={Signupic} alt='registration-pic' />
 							</figure>
-							<NavLink to='./login' className='signup-image-link'>
+							<NavLink to='/login' className='signup-image-link'>
 								I am already Register
 							</NavLink>
 						</div>
