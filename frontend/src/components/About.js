@@ -32,7 +32,7 @@ export default function About() {
 									</li>
 									<li className='nav-item'>
 										<a
-											className='nav-link active'
+											className='nav-link '
 											id='progile-tab'
 											data-toggle='tab'
 											href='#profile'
@@ -95,7 +95,7 @@ export default function About() {
 						</div>
 
 						<div className='col-md-8 pl-5 about-info'>
-							<div className='tab-content profile-tab' id='myTabContent'>
+							<div className='tab-content profile-tab mt-5' id='myTabContent'>
 								<div
 									className='tab-pane fade show active'
 									id='home'
@@ -122,28 +122,62 @@ export default function About() {
 
 									<div className='row mt-3'>
 										<div className='col-md-6'>
-											<label>Name</label>
+											<label>Email</label>
 										</div>
 										<div className='col-md-6'>
-											<p>Parul Surana</p>
-										</div>
-									</div>
-
-									<div className='row mt-3'>
-										<div className='col-md-6'>
-											<label>Name</label>
-										</div>
-										<div className='col-md-6'>
-											<p>Parul Surana</p>
+											<p>suranaparul2@gmail.com</p>
 										</div>
 									</div>
 
 									<div className='row mt-3'>
 										<div className='col-md-6'>
-											<label>Name</label>
+											<label>Phone</label>
 										</div>
 										<div className='col-md-6'>
-											<p>Parul Surana</p>
+											<p>9187652348</p>
+										</div>
+									</div>
+
+									<div className='row mt-3'>
+										<div className='col-md-6'>
+											<label>Profession</label>
+										</div>
+										<div className='col-md-6'>
+											<p>Software Engineer</p>
+										</div>
+									</div>
+								</div>
+
+								<div
+									className='tab-pane fade'
+									id='profile'
+									role='tabpanel'
+									aria-labelledby='profile-tab'
+								>
+									<div className='row'>
+										<div className='col-md-6'>
+											<label>Experience</label>
+										</div>
+										<div className='col-md-6'>
+											<p>Expert</p>
+										</div>
+									</div>
+
+									<div className='row mt-3'>
+										<div className='col-md-6'>
+											<label>Hour Rate</label>
+										</div>
+										<div className='col-md-6'>
+											<p>10$/hr</p>
+										</div>
+									</div>
+
+									<div className='row mt-3'>
+										<div className='col-md-6'>
+											<label>Total Projects</label>
+										</div>
+										<div className='col-md-6'>
+											<p>5</p>
 										</div>
 									</div>
 								</div>
