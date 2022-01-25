@@ -64,3 +64,13 @@
 	text-transform: capitalize;
 	margin-bottom: 30px;
 }
+
+.girlpic img {
+	height: 8rem;
+	width: 8rem;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+	border: none;
+}
