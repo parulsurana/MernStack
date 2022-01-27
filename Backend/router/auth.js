@@ -1,17 +1,14 @@
-const jwt = require('jsonwebtoken');
-const express = require('express');
+const jwt = require("jsonwebtoken");
+const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-require('../db/conn');
-const User = require("../models/userSchema")
+const bcrypt = require("bcryptjs");
+const authenticate = require("../middleware/authenticate");
+require("../db/conn");
+const User = require("../models/userSchema");
 
-
-
-
-router.get('/', (req, res)=>{
-    res.send(`Hello From Router.js`);
-})
-
+router.get("/", (req, res) => {
+	res.send(`Hello From Router.js`);
+});
 
 //USING PROMISES STORING DATA INTO DATABASE
 
@@ -36,79 +33,75 @@ router.get('/', (req, res)=>{
 //            res.status(201).json({message : "User Registered Successfully"});
 //        }).catch((err) => res.status(500).json({error : 'Failed to register'}));
 //    }).catch(err => {console.log(err); });
-    
+
 // })
 
 //USING ASYNC/AWAIT STORING DATA INTO DATABASE
 
-router.post('/register', async(req,res) => {
-   const {name, email, phone, work, password, cpassword} = req.body;
+router.post("/register", async (req, res) => {
+	const { name, email, phone, work, password, cpassword } = req.body;
 
-   if(!name || !email || !phone || !work || !password || !cpassword)
-   {
-       return res.status(422).json({error: "All fields are Required"});
-   }
+	if (!name || !email || !phone || !work || !password || !cpassword) {
+		return res.status(422).json({ error: "All fields are Required" });
+	}
 
-   try{
-        const userExist =  await User.findOne({email : email});
-        if(userExist){
-            return res.status(422).json({error: "Email already exists"});
-        }else if(password != cpassword){
-            return res.status(422).json({error: "Passwords are not matching"});
-        }else{
-            const user = new User({name, email, phone, work, password, cpassword});
-            // pre wala will work.(passwor hashing - UserSchema)
-            await user.save();
-    
-            res.status(201).json({message : "User Registered Successfully"});
-        }
-   }catch(err){
-     console.log(err);
-   }  
-})
+	try {
+		const userExist = await User.findOne({ email: email });
+		if (userExist) {
+			return res.status(422).json({ error: "Email already exists" });
+		} else if (password != cpassword) {
+			return res.status(422).json({ error: "Passwords are not matching" });
+		} else {
+			const user = new User({ name, email, phone, work, password, cpassword });
+			// pre wala will work.(passwor hashing - UserSchema)
+			await user.save();
+
+			res.status(201).json({ message: "User Registered Successfully" });
+		}
+	} catch (err) {
+		console.log(err);
+	}
+});
 
 //Signin functinality
-router.post('/signin', async(req,res) => {
+router.post("/signin", async (req, res) => {
+	try {
+		const { email, password } = req.body;
 
-  try{
+		if (!email || !password) {
+			return res.status(400).json({ error: "Filled the data" });
+		}
 
-    const {email, password} = req.body;
+		const userLogin = await User.findOne({ email: email });
 
-    if(!email || !password)
-    {
-        return res.status(400).json({error : 'Filled the data'});
-    }
+		if (userLogin) {
+			const isMatch = await bcrypt.compare(password, userLogin.password);
 
-    const userLogin = await User.findOne({email : email});
+			const token = await userLogin.generateAuthToken();
+			console.log(token);
 
-    if(userLogin){
-        const isMatch = await bcrypt.compare(password, userLogin.password);
+			res.cookie("jwtoken", token, {
+				expires: new Date(Date.now() + 25892000000),
+				httpOnly: true,
+			});
 
-        const token = await userLogin.generateAuthToken();
-        console.log(token);
+			if (!isMatch) {
+				res.status(400).json({ error: "Invalid Credentials" });
+			} else {
+				res.json({ message: "User Signin Successfully" });
+			}
+		} else {
+			res.status(400).json({ error: "Invalid Credentials" });
+		}
+	} catch (err) {
+		console.log(err);
+	}
+});
 
-        res.cookie("jwtoken", token, {
-            expires : new Date(Date.now() + 25892000000),
-            httpOnly : true
-        })
+//About Page par data get karna
 
-        if(!isMatch)
-        {
-            res.status(400).json({error : 'Invalid Credentials'});
-        }else{
-            res.json({message : 'User Signin Successfully'});
-        }
-         
-    }else{
-        res.status(400).json({error : 'Invalid Credentials'});
-    }
-   
-   
-  }catch(err){
-      console.log(err);
-  }
-
-
-})
+router.get("/about", authenticate, (req, res) => {
+	res.send(`Hello World from the server`);
+});
 
 module.exports = router;
