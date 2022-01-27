@@ -1,6 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Contact() {
+	const [userData, setUserData] = useState(0);
+
+	const userContact = async () => {
+		try {
+			const res = await fetch("/getdata", {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			const data = await res.json();
+			console.log(data);
+			setUserData(data);
+
+			if (!res.status === 200) {
+				const error = new Error(res.error);
+				throw error;
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
+		userContact();
+	}, []);
+
 	return (
 		<>
 			<div className='contact-info'>
@@ -49,6 +77,7 @@ export default function Contact() {
 											type='text'
 											id='contact-form-name'
 											className='contact-form-name input-field'
+											value={userData.name}
 											placeholder='Your name'
 											required='true'
 										/>
@@ -56,6 +85,7 @@ export default function Contact() {
 											type='email'
 											id='contact-form-name'
 											className='contact-form-name input-field'
+											value={userData.email}
 											placeholder='Your Email'
 											required='true'
 										/>
@@ -63,6 +93,7 @@ export default function Contact() {
 											type='number'
 											id='contact-form-name'
 											className='contact-form-name input-field'
+											value={userData.phone}
 											placeholder='Your mobile number'
 											required='true'
 										/>
