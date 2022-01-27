@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import girlpic from "../images/girl.png";
 import { useNavigate } from "react-router-dom";
 
 export default function About() {
 	const history = useNavigate();
+
+	const [userData, setUserData] = useState(0);
 
 	const callAboutPage = async () => {
 		try {
@@ -18,6 +20,7 @@ export default function About() {
 
 			const data = await res.json();
 			console.log(data);
+			setUserData(data);
 
 			if (!res.status === 200) {
 				const error = new Error(res.error);
@@ -44,8 +47,8 @@ export default function About() {
 
 						<div className='col-md-6 '>
 							<div className='profile-head'>
-								<h5>Parul Surana</h5>
-								<h6>Problem Solver</h6>
+								<h5>{userData.name}</h5>
+								<h6>{userData.work}</h6>
 								<p className='profile-rating mt-3 mb-5'>
 									Rankings: <span>1/10</span>
 								</p>
@@ -147,7 +150,7 @@ export default function About() {
 											<label>Name</label>
 										</div>
 										<div className='col-md-6'>
-											<p>Parul Surana</p>
+											<p>{userData.name}</p>
 										</div>
 									</div>
 
@@ -156,7 +159,7 @@ export default function About() {
 											<label>Email</label>
 										</div>
 										<div className='col-md-6'>
-											<p>suranaparul2@gmail.com</p>
+											<p>{userData.email}</p>
 										</div>
 									</div>
 
@@ -165,7 +168,7 @@ export default function About() {
 											<label>Phone</label>
 										</div>
 										<div className='col-md-6'>
-											<p>9187652348</p>
+											<p>{userData.phone}</p>
 										</div>
 									</div>
 
@@ -174,7 +177,7 @@ export default function About() {
 											<label>Profession</label>
 										</div>
 										<div className='col-md-6'>
-											<p>Software Engineer</p>
+											<p>{userData.work}</p>
 										</div>
 									</div>
 								</div>
