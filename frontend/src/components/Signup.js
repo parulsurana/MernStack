@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Signupic from "../images/signupic.svg";
 
 export default function Signup() {
+	const [user, setUser] = useState({
+		name: "",
+		email: "",
+		phone: "",
+		work: "",
+		password: "",
+		cpassword: "",
+	});
+
+	let name, value;
+	const handleInputs = (e) => {
+		console.log(e);
+		name = e.target.name;
+		value = e.target.value;
+
+		setUser({ ...user, [name]: value });
+	};
+
 	return (
 		<>
 			<section className='signup'>
@@ -20,6 +38,8 @@ export default function Signup() {
 										name='name'
 										id='name'
 										autoComplete='off'
+										value={user.name}
+										onChange={handleInputs}
 										placeholder='Your Name'
 									/>
 								</div>
@@ -33,6 +53,8 @@ export default function Signup() {
 										name='email'
 										id='email'
 										autoComplete='off'
+										value={user.email}
+										onChange={handleInputs}
 										placeholder='Your Email'
 									/>
 								</div>
@@ -46,6 +68,8 @@ export default function Signup() {
 										name='phone'
 										id='phone'
 										autoComplete='off'
+										value={user.phone}
+										onChange={handleInputs}
 										placeholder='Your Phone'
 									/>
 								</div>
@@ -59,6 +83,8 @@ export default function Signup() {
 										name='work'
 										id='work'
 										autoComplete='off'
+										value={user.work}
+										onChange={handleInputs}
 										placeholder='Your Profession'
 									/>
 								</div>
@@ -72,6 +98,8 @@ export default function Signup() {
 										name='password'
 										id='password'
 										autoComplete='off'
+										value={user.password}
+										onChange={handleInputs}
 										placeholder='Your Password'
 									/>
 								</div>
@@ -85,6 +113,8 @@ export default function Signup() {
 										name='cpassword'
 										id='cpassword'
 										autoComplete='off'
+										value={user.cpassword}
+										onChange={handleInputs}
 										placeholder='Confirm your Password'
 									/>
 								</div>
