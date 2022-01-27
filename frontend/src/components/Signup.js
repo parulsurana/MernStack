@@ -53,7 +53,6 @@ export default function Signup() {
 			history("/login");
 		}
 	};
-
 	return (
 		<>
 			<section className='signup'>
