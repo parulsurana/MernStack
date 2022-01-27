@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 export default function Contact() {
-	const [userData, setUserData] = useState(0);
+	const [userData, setUserData] = useState({
+		name: "",
+		email: "",
+		phone: "",
+		message: "",
+	});
 
 	const userContact = async () => {
 		try {
@@ -14,7 +19,12 @@ export default function Contact() {
 
 			const data = await res.json();
 			console.log(data);
-			setUserData(data);
+			setUserData({
+				...userData,
+				name: data.name,
+				email: data.email,
+				phone: data.phone,
+			});
 
 			if (!res.status === 200) {
 				const error = new Error(res.error);
@@ -28,6 +38,13 @@ export default function Contact() {
 	useEffect(() => {
 		userContact();
 	}, []);
+
+	const handleInputs = (e) => {
+		const name = e.target.name;
+		const value = e.target.value;
+
+		setUserData({ ...userData, [name]: value });
+	};
 
 	return (
 		<>
@@ -77,7 +94,9 @@ export default function Contact() {
 											type='text'
 											id='contact-form-name'
 											className='contact-form-name input-field'
+											name='name'
 											value={userData.name}
+											onChange={handleInputs}
 											placeholder='Your name'
 											required='true'
 										/>
@@ -85,7 +104,9 @@ export default function Contact() {
 											type='email'
 											id='contact-form-name'
 											className='contact-form-name input-field'
+											name='email'
 											value={userData.email}
+											onChange={handleInputs}
 											placeholder='Your Email'
 											required='true'
 										/>
@@ -93,7 +114,9 @@ export default function Contact() {
 											type='number'
 											id='contact-form-name'
 											className='contact-form-name input-field'
+											name='phone'
 											value={userData.phone}
+											onChange={handleInputs}
 											placeholder='Your mobile number'
 											required='true'
 										/>
@@ -103,6 +126,9 @@ export default function Contact() {
 										<textarea
 											className='text-field contact-form-message'
 											placeholder='Message'
+											name='message'
+											value={userData.message}
+											onChange={handleInputs}
 											cols='30'
 											rows='10'
 										></textarea>
