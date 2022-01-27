@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Signupic from "../images/signupic.svg";
 
 export default function Signup() {
+	const history = useNavigate();
 	const [user, setUser] = useState({
 		name: "",
 		email: "",
@@ -21,6 +22,38 @@ export default function Signup() {
 		setUser({ ...user, [name]: value });
 	};
 
+	const PostData = async (e) => {
+		e.preventDefault();
+
+		const { name, email, phone, work, password, cpassword } = user;
+
+		const res = await fetch("/register", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				name,
+				email,
+				phone,
+				work,
+				password,
+				cpassword,
+			}),
+		});
+
+		const data = await res.json();
+
+		if (data.status === 442 || !data) {
+			window.alert("Invalid Registration");
+			console.log("Invalid Registration");
+		} else {
+			window.alert("Registration Successfull");
+			console.log("Registration Successfull");
+			history("/login");
+		}
+	};
+
 	return (
 		<>
 			<section className='signup'>
@@ -28,7 +61,11 @@ export default function Signup() {
 					<div className='signup-content'>
 						<div className='signup-form'>
 							<h2 className='form-title'> Sign up </h2>
-							<form className='registration-form' id='registration-form'>
+							<form
+								method='POST'
+								className='registration-form'
+								id='registration-form'
+							>
 								<div className='form-group'>
 									<label htmlFor='name'>
 										<i class='zmdi zmdi-account material-icons-name'></i>
@@ -126,6 +163,7 @@ export default function Signup() {
 										id='signup'
 										className='form-submit'
 										value='register'
+										onClick={PostData}
 									/>
 								</div>
 							</form>
