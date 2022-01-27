@@ -23,10 +23,10 @@ app.get("/", (req, res) => {
 	res.send(`Hello World from the server`);
 });
 
-app.get("/about", middleware, (req, res) => {
-	console.log(`Hello about`);
-	res.send(`Hello about from the server`);
-});
+// app.get("/about", middleware, (req, res) => {
+// 	console.log(`Hello about`);
+// 	res.send(`Hello about from the server`);
+// });
 
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
