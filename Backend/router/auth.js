@@ -101,7 +101,8 @@ router.post("/signin", async (req, res) => {
 //About Page par data get karna
 
 router.get("/about", authenticate, (req, res) => {
-	res.send(`Hello World from the server`);
+	console.log("About Page");
+	res.send(req.rootUser);
 });
 
 module.exports = router;
