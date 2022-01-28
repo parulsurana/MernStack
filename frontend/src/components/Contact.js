@@ -39,11 +39,41 @@ export default function Contact() {
 		userContact();
 	}, []);
 
+	// Store data in states
 	const handleInputs = (e) => {
 		const name = e.target.name;
 		const value = e.target.value;
 
 		setUserData({ ...userData, [name]: value });
+	};
+
+	// sEnd message data to backend
+	const ContactForm = async (e) => {
+		e.preventDefault();
+
+		const { name, email, phone, message } = userData;
+
+		const res = await fetch("/contact", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				name,
+				email,
+				phone,
+				message,
+			}),
+		});
+
+		const data = await res.json();
+
+		if (!data) {
+			console.log("Message Failed");
+		} else {
+			alert("Message Successfully Send :)");
+			setUserData({ ...userData, message: "" });
+		}
 	};
 
 	return (
@@ -88,7 +118,7 @@ export default function Contact() {
 						<div className='col-lg-10 offset-lg-1'>
 							<div className='contact-form-container py-5'>
 								<div className='contact-form-title'>Get in Touch</div>
-								<form id='contact-form'>
+								<form method='POST' id='contact-form'>
 									<div className='contact-form-name d-flex justify-content-between align-items-between'>
 										<input
 											type='text'
@@ -138,6 +168,7 @@ export default function Contact() {
 										<button
 											type='submit'
 											className='button contact-submit-button'
+											onClick={ContactForm}
 										>
 											Send Message
 										</button>

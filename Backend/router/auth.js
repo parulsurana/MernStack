@@ -113,4 +113,28 @@ router.get("/getdata", authenticate, (req, res) => {
 	res.send(req.rootUser);
 });
 
+//For Contact Message
+router.post("/contact", authenticate, async (req, res) => {
+	try {
+		const { name, email, phone, message } = req.body;
+
+		if (!name || !email || !phone || !message) {
+			console.log("Error in Contact Form");
+			return res.json({ error: "Filled the form completely" });
+		}
+
+		const userContact = await User.findOne({ _id: req.userID });
+
+		if (userContact) {
+			const userMessage = await userContact.addMessage(name,email,phone,message);
+
+			await userContact.save();
+
+			res.status(201).json({ message: "Message successfully send by contact us page" });
+		}
+	} catch (err) {
+		console.log(err);
+	}
+});
+
 module.exports = router;
