@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { userContext } from "../App";
 
 export default function Loginform() {
 	const history = useNavigate();
+	const { state, dispatch } = useContext(userContext);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -24,6 +26,7 @@ export default function Loginform() {
 		if (res.status === 400 || !data) {
 			window.alert("Invalid Credential");
 		} else {
+			dispatch({ type: "USER", payload: true });
 			window.alert("Succefully Logged in");
 			history("/");
 		}
