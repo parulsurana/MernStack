@@ -52,6 +52,12 @@ export default function Navbar() {
 								Registration
 							</a>
 						</li>
+
+						<li className='nav-item'>
+							<a className='nav-link' href='/logout'>
+								Logout
+							</a>
+						</li>
 					</ul>
 				</div>
 			</nav>
